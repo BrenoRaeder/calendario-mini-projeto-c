@@ -30,14 +30,18 @@ int main()
         switch (opcMenu)
         {
         case 1:
-            printf("Digite a data (DD MM AA):");
+            printf("Digite a data (DD MM AAAA):");
             scanf("%d %d %d", &data.mes, &data.dia, &data.ano);
-            printf("O dia eh: %s\n\n",calculaData(data.mes, data.dia, data.ano)); //só tá funcinando para datas acima de 1700
+            printf("O dia eh: %s\n\n",diaSemana(calculaData(data.mes, data.dia, data.ano))); //só tá funcinando para datas acima de 1900
             system("pause");
             break;
         
         case 2:
-            //code
+            printf("Digite o mes e o ano (MM AAAA):");
+            scanf("%d %d", &data.mes, &data.ano);
+            imprimeCalendario(data.mes, data.ano);
+            system("pause");
+            system("cls");
             break;
 
         case 3:
@@ -45,10 +49,7 @@ int main()
             break;
 
         case 4:
-            break;
-        
-        default:
-            break;
+            exit(0);
         }
     }
 }

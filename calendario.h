@@ -10,7 +10,11 @@ typedef struct{
 int ignoraResto(int a);
 int codigoMes(int mes);
 char *diaSemana(int final);
-char *calculaData(int mes, int dia, int ano);
+int calculaData(int mes, int dia, int ano);
+int qtdDiasMes(int mes, int ano);
+char *nomeMes(int mes);
+void imprimeCalendario(int mes, int ano);
+
 
 
 
