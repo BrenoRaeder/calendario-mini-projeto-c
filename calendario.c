@@ -2,9 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <conio.h>
 
 #include "calendario.h"
 #include "cor.h"
+
+
+
+COORD xy = {0, 0};
+
+void gotoxy (int x, int y)
+{
+        xy.X = x; xy.Y = y; // X and Y coordinates
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
+}
 
 int ignoraResto(int valor)
 {
@@ -131,64 +142,72 @@ char *nomeMes(int mes)
     switch(mes)
     {
         case 1: 
-            return ("Janeiro"); 
+            return ("       Janeiro"); 
         case 2: 
-            return ("Fevereiro");
+            return ("     Fevereiro");
         case 3: 
-            return ("Marco");
+            return ("         Marco");
         case 4: 
-            return ("Abril");
+            return ("         Abril");
         case 5: 
-            return ("Maio");
+            return ("          Maio");
         case 6: 
-            return ("Junho");
+            return ("         Junho");
         case 7:
-            return ("Julho");
+            return ("         Julho");
         case 8:
-            return ("Agosto");
+            return ("        Agosto");
         case 9:
-            return ("Setembro");
+            return ("      Setembro");
         case 10: 
-            return ("Outubro");
+            return ("       Outubro");
         case 11:
-            return ("Novembro");
+            return ("      Novembro");
         case 12:
-            return ("Dezembro");
+            return ("      Dezembro");
     }
 }
 
 void imprimeCalendario(int mes, int ano)
 {
     int i, j=1, qtdDias, comecoMes;
+    int x=28,y=3; //coordenadas
     
     qtdDias = qtdDiasMes(mes, ano);
     comecoMes = calculaData(1, mes, ano); //0 é segunda, 1 é terça... 7 é erro
     if(ano%4==0 || (ano%100==0 && ano%400!=0)) comecoMes++;
 
-    //printf("%d - %s\n\n", qtdDias, diaSemana(comecoMes));
+    gotoxy(x,y); printf("-------------------------");
+    y++; gotoxy(x,y); printf("%s, %d", nomeMes(mes),ano);
+    y++; gotoxy(x,y); printf("-------------------------");
+    y+=2; gotoxy(x,y); printf("D   S   T   Q   Q   S   S");
+    y+=2; gotoxy(x,y);
 
-    printf("-------------------------\n");
-    printf("  %s, %d\n", nomeMes(mes),ano);
-    printf("-------------------------\n");
-    printf("S   T   Q   Q   S   S   D\n");
     
     for(i=1;j<=qtdDias;i++)
-    {
-        if(i<comecoMes+1) printf("    ");
+    {   
+        
+        if(i<comecoMes+2) printf("    ");
         else
         {
-            if(i==8 || i==15 || i==22 || i==29) printf("\n"); // organizar isso aqui
-        
+            if(i==8 || i==15 || i==22 || i==29 || i==36)
+            {
+                y++;
+                gotoxy(x,y);
+            }
+
+            if(i==8 || i==15 || i==22 || i==29 || i==36) DefineCores(12);
+            else LimpaCores();
+
             if(j<10) printf("0%d  ", j);
             else printf("%d  ",j);
             j++;
-
-            if(i==0 || i%7==0) DefineCores(12);
-            else LimpaCores();
         }
     }
+
+    DefineCores(14);
+    y+=4; gotoxy(8,y); printf("Pressione 'p' para o proximo mes, pressione 'a' para o anterior");
+    y++; gotoxy(27,y); printf("Caso deseje sair pressione 'q'");
+    y++; gotoxy(5,y); printf("Datas com o fundo vermelhos indicam uma NOTA, pressione 'n' para ve-la");
     LimpaCores();
-
-    printf("\n");
-
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <conio.h>
 
 #include "cor.h"
 #include "calendario.h"
@@ -12,6 +13,7 @@ int main()
 {
     int opcMenu;
     TData data;
+    char ch;
 
     LimpaConsole(15,1);
 
@@ -39,10 +41,49 @@ int main()
         case 2:
             printf("Digite o mes e o ano (MM AAAA):");
             scanf("%d %d", &data.mes, &data.ano);
-            imprimeCalendario(data.mes, data.ano);
-            system("pause");
             system("cls");
-            break;
+            imprimeCalendario(data.mes, data.ano);
+            ch = getch();
+
+            while(ch!='q')
+            {   
+                if(ch=='p') 
+                {   
+                    system("cls");
+                    if(data.mes==12)
+                    {
+                        data.mes=1;
+                        data.ano++;
+                    }
+                    data.mes++;
+                    imprimeCalendario(data.mes, data.ano);
+                    ch = getch();
+                }
+                else if(ch=='a')
+                {   
+                    system("cls");
+                    if(data.mes==1)
+                    {
+                        data.mes=12;
+                        data.ano--;
+                    }
+                    data.mes--;
+                    imprimeCalendario(data.mes, data.ano);
+                    ch = getch();
+                }
+                else if(ch=='q')
+                {
+                    system("cls");
+                    break;
+                }
+                else
+                {
+                    system("cls");
+                    imprimeCalendario(data.mes, data.ano);
+                    ch = getch();
+                }
+            }
+            //add parte da nota no futuro
 
         case 3:
             //code

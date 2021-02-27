@@ -7,6 +7,9 @@ typedef struct{
     int ano;
 }TData;
 
+
+
+//void gotoxy (int x, int y);
 int ignoraResto(int a);
 int codigoMes(int mes);
 char *diaSemana(int final);
