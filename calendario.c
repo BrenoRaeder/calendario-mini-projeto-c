@@ -66,15 +66,15 @@ char *diaSemana(int dia)
     switch (dia)
     {
     case 0:
-        return ("segunda"); 
+        return ("segunda-feira"); 
     case 1:
-        return ("terca"); 
+        return ("terca-feira"); 
     case 2:
-        return ("quarta"); 
+        return ("quarta-feira"); 
     case 3:
-        return ("quinta"); 
+        return ("quinta-feira"); 
     case 4:
-        return ("sexta"); 
+        return ("sexta-feira"); 
     case 5:
         return ("sabado"); 
     case 6:
@@ -103,6 +103,19 @@ int calculaData(int dia, int mes, int ano)
 
         return diaSemana;
     }  
+}
+
+void imprimeDiaSemana(int mes, int dia, int ano)
+{
+    printf("\nDia da semana:");
+    DefineCores(12);
+    gotoxy(17,4);
+    printf("%s",diaSemana(calculaData(mes, dia, ano)));
+    LimpaCores();
+    gotoxy(0,8);
+    DefineCores(14);
+    system("pause");
+    LimpaCores();
 }
 
 int qtdDiasMes(int mes, int ano)

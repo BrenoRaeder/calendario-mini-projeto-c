@@ -14,6 +14,7 @@ int ignoraResto(int a);
 int codigoMes(int mes);
 char *diaSemana(int final);
 int calculaData(int mes, int dia, int ano);
+void imprimeDiaSemana(int mes, int dia, int ano);
 int qtdDiasMes(int mes, int ano);
 char *nomeMes(int mes);
 void imprimeCalendario(int mes, int ano);

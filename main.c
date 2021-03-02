@@ -34,12 +34,12 @@ int main()
         case 1:
             printf("Digite a data (DD MM AAAA):");
             scanf("%d %d %d", &data.mes, &data.dia, &data.ano);
-            printf("O dia eh: %s\n\n",diaSemana(calculaData(data.mes, data.dia, data.ano))); //só tá funcinando para datas acima de 1900
-            system("pause");
+            system("cls");
+            imprimeDiaSemana(data.mes, data.dia, data.ano); //só tá funcinando para datas acima de 1900
             break;
         
         case 2:
-            printf("Digite o mes e o ano (MM AAAA):");
+            printf("Digite o mes e o ano (MM AAAA):");              //olhar agosto de 1904; olhar domingos primeiros abaixo de 1900
             scanf("%d %d", &data.mes, &data.ano);
             system("cls");
             imprimeCalendario(data.mes, data.ano);
