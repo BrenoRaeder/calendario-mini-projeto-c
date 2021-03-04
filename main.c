@@ -13,9 +13,12 @@ int main()
 {
     int opcMenu;
     TData data;
+    TNotas n; 
     char ch;
 
     LimpaConsole(15,1);
+    inicializarNotas(&n);
+    leNotas(&n);
 
     while(1)
     {
@@ -86,11 +89,16 @@ int main()
             //add parte da nota no futuro
 
         case 3:
-            //code
+            inserirNota(&n);
             break;
 
         case 4:
+            gravaNota(n);
             exit(0);
         }
     }
+
+    gravaNota(n);
+
+    return 0;
 }

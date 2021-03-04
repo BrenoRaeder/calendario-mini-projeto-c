@@ -13,7 +13,7 @@ COORD xy = {0, 0};
 
 void gotoxy (int x, int y)
 {
-        xy.X = x; xy.Y = y; // X and Y coordinates
+        xy.X = x; xy.Y = y; 
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
@@ -223,4 +223,86 @@ void imprimeCalendario(int mes, int ano)
     y++; gotoxy(27,y); printf("Caso deseje sair pressione 'q'");
     y++; gotoxy(5,y); printf("Datas com o fundo vermelhos indicam uma NOTA, pressione 'n' para ve-la");
     LimpaCores();
+}
+
+void inicializarNotas(TNotas *notas)
+{
+    (*notas).qtd = 0;
+}
+
+void inserirNota(TNotas *n)
+{
+    printf("Digite o dia e o mes da sua nota (DD MM): ");
+            scanf("%d %d", &(*n).nota[(*n).qtd].dia, &(*n).nota[(*n).qtd].mes);
+            printf("\nDigite a nota: ");
+            leString((*n).nota[(*n).qtd].nota, 30);
+            (*n).qtd++;
+
+            system("pause");
+}
+
+void gravaNota(TNotas notas)
+{
+    FILE *arq;
+    arq = fopen("notas.txt", "wt");
+
+    if(arq!=NULL)
+    {
+        int i;
+        for(i=0;i<notas.qtd; i++)
+        {
+            TNota n = notas.nota[i];
+            if (i>0)fprintf(arq,"\n");
+            fprintf(arq, "%s,%d,%d", n.nota,n.dia,n.mes);
+        }
+        fclose(arq);
+    }
+}
+
+char *lerAte(FILE *arq, char sep, char destino[])
+{
+    int i = 0;
+    int letra;
+
+    while((letra=fgetc(arq))>0 && letra!=sep && i<30)
+    {
+        destino[i]=letra;
+        i++;
+    }
+
+    destino[i]='\0';
+    return destino;
+}
+
+void inserirArq(TNotas *n, TNota nota)
+{
+    (*n).nota[(*n).qtd]=nota;
+    (*n).qtd++;
+}
+
+void leNotas(TNotas *n)
+{
+    FILE *arq;
+    arq = fopen("notas.txt", "rt");
+
+    if(arq!=NULL)
+    {
+        (*n).qtd=0;
+        TNota nota;
+        while(!feof(arq))
+        {
+            lerAte(arq,',',nota.nota);
+            fscanf(arq,"%d,",&nota.dia);
+            fscanf(arq,"%d\n",&nota.mes);
+            inserirArq(&*n, nota);
+        }
+    }
+}
+
+void leString(char str[], int max)
+{
+    fflush(stdin);
+    fgets(str,max,stdin);
+    if(str[strlen(str)-1]=='\n')
+        str[strlen(str)-1]='\0';
 }
