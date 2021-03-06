@@ -155,29 +155,29 @@ char *nomeMes(int mes)
     switch(mes)
     {
         case 1: 
-            return ("       Janeiro"); 
+            return ("Janeiro"); 
         case 2: 
-            return ("     Fevereiro");
+            return ("Fevereiro");
         case 3: 
-            return ("         Marco");
+            return ("Marco");
         case 4: 
-            return ("         Abril");
+            return ("Abril");
         case 5: 
-            return ("          Maio");
+            return ("Maio");
         case 6: 
-            return ("         Junho");
+            return ("Junho");
         case 7:
-            return ("         Julho");
+            return ("Julho");
         case 8:
-            return ("        Agosto");
+            return ("Agosto");
         case 9:
-            return ("      Setembro");
+            return ("Setembro");
         case 10: 
-            return ("       Outubro");
+            return ("Outubro");
         case 11:
-            return ("      Novembro");
+            return ("Novembro");
         case 12:
-            return ("      Dezembro");
+            return ("Dezembro");
     }
 }
 
@@ -191,7 +191,7 @@ void imprimeCalendario(int mes, int ano)
     if(ano%4==0 || (ano%100==0 && ano%400!=0)) comecoMes++;
 
     gotoxy(x,y); printf("-------------------------");
-    y++; gotoxy(x,y); printf("%s, %d", nomeMes(mes),ano);
+    y++; gotoxy(35,y); printf("%s, %d", nomeMes(mes),ano);
     y++; gotoxy(x,y); printf("-------------------------");
     y+=2; gotoxy(x,y); printf("D   S   T   Q   Q   S   S");
     y+=2; gotoxy(x,y);
@@ -305,4 +305,32 @@ void leString(char str[], int max)
     fgets(str,max,stdin);
     if(str[strlen(str)-1]=='\n')
         str[strlen(str)-1]='\0';
+}
+
+void imprimeAniversario(TNotas *n, int mes)
+{
+    int i, c=0;
+
+    DefineCores(12);
+    gotoxy(20,1); 
+    printf("-%s-",nomeMes(mes));
+    LimpaCores();
+
+    for(i=0;i<(*n).qtd;i++)
+    {
+        if((*n).nota[i].mes==mes) 
+        {
+            gotoxy(20,3+c);
+            printf("\nAniversariante: %s", (*n).nota[i].nota);
+            c++;
+        }
+    }
+
+    if(c==0) printf("\nNenhum aniversariante");
+
+    DefineCores(14);
+    gotoxy(0,8+c); 
+    system("pause");
+    LimpaCores();
+
 }

@@ -3,30 +3,36 @@
 #include <string.h>
 #include <windows.h>
 #include <conio.h>
+#include <time.h>
 
 #include "cor.h"
 #include "calendario.h"
 
 
-
 int main()
 {
-    int opcMenu;
+    int opcMenu, mes;
     TData data;
     TNotas n; 
     char ch;
+    struct tm *_data_; 
 
-    LimpaConsole(15,1);
+    time_t segundos; time(&segundos); _data_=localtime(&segundos);
+
+    LimpaConsole(15,3);
     inicializarNotas(&n);
     leNotas(&n);
 
+    imprimeAniversario(&n, _data_->tm_mon+1);
+    
     while(1)
     {
         system("cls");
         printf("1. Descubra o dia da semana\n");
         printf("2. Veja todos os dias de um mes\n");
         printf("3. Adcione uma nota\n");
-        printf("4. SAIR\n");
+        printf("4. Veja todos os aniversariantes de um mes\n");
+        printf("5. SAIR\n\n");
         printf("DIGITE SUA OPCAO: ");
         scanf("%d", &opcMenu);
         system("cls");
@@ -93,12 +99,18 @@ int main()
             break;
 
         case 4:
+            printf("Qual mes deseja consultar? ");
+            scanf("%d", &mes);
+            system("cls");
+            imprimeAniversario(&n,mes);
+            break;
+
+        case 5:
             gravaNota(n);
+            LimpaConsole(15,0);
             exit(0);
         }
     }
-
-    gravaNota(n);
 
     return 0;
 }

@@ -34,6 +34,6 @@ char *lerAte(FILE *arq, char sep, char destino[]);
 void inserirArq(TNotas *n, TNota nota);
 void leNotas(TNotas *n);
 void leString(char str[], int max);
-
+void imprimeAniversario(TNotas *n, int mes);
 
 #endif
