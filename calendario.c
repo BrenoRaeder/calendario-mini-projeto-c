@@ -3,6 +3,7 @@
 #include <string.h>
 #include <windows.h>
 #include <conio.h>
+#include <time.h>
 
 #include "calendario.h"
 #include "cor.h"
@@ -181,17 +182,19 @@ char *nomeMes(int mes)
     }
 }
 
-void imprimeCalendario(int mes, int ano)
+void imprimeCalendario(int mes, int ano, TNotas n, int conf)
 {
     int i, j=1, qtdDias, comecoMes;
     int x=28,y=3; //coordenadas
+
+    if(conf==0) x=40;
     
     qtdDias = qtdDiasMes(mes, ano);
     comecoMes = calculaData(1, mes, ano); //0 é segunda, 1 é terça... 7 é erro
     if(ano%4==0 || (ano%100==0 && ano%400!=0)) comecoMes++;
 
     gotoxy(x,y); printf("-------------------------");
-    y++; gotoxy(35,y); printf("%s, %d", nomeMes(mes),ano);
+    y++; gotoxy(x+8,y); printf("%s, %d", nomeMes(mes),ano);
     y++; gotoxy(x,y); printf("-------------------------");
     y+=2; gotoxy(x,y); printf("D   S   T   Q   Q   S   S");
     y+=2; gotoxy(x,y);
@@ -199,7 +202,6 @@ void imprimeCalendario(int mes, int ano)
     
     for(i=1;j<=qtdDias;i++)
     {   
-        
         if(i<comecoMes+2) printf("    ");
         else
         {
@@ -209,20 +211,32 @@ void imprimeCalendario(int mes, int ano)
                 gotoxy(x,y);
             }
 
-            if(i==8 || i==15 || i==22 || i==29 || i==36) DefineCores(12);
+            if(i==8 || i==15 || i==22 || i==29 || i==36) DefineCores(11);
             else LimpaCores();
 
-            if(j<10) printf("0%d  ", j);
-            else printf("%d  ",j);
+            if(confereAniversario(j,mes,n)==1) DefineCores(12);
+            if(j<10) 
+            {
+                printf("0%d  ", j);
+            }
+            else 
+            {
+                printf("%d  ",j);
+            }
+            DefineCores(14);
             j++;
         }
     }
 
-    DefineCores(14);
-    y+=4; gotoxy(8,y); printf("Pressione 'p' para o proximo mes, pressione 'a' para o anterior");
-    y++; gotoxy(27,y); printf("Caso deseje sair pressione 'q'");
-    y++; gotoxy(5,y); printf("Datas com o fundo vermelhos indicam uma NOTA, pressione 'n' para ve-la");
-    LimpaCores();
+    if(conf==1)
+    {
+        DefineCores(14);
+        y+=4; gotoxy(8,y); printf("Pressione 'p' para o proximo mes, pressione 'a' para o anterior");
+        y++; gotoxy(27,y); printf("Caso deseje sair pressione 'q'");
+        y++; gotoxy(5,y); printf("Datas com o fundo vermelhos indicam uma NOTA, pressione 'n' para ve-la");
+        LimpaCores();
+    }
+    
 }
 
 void inicializarNotas(TNotas *notas)
@@ -310,27 +324,78 @@ void leString(char str[], int max)
 void imprimeAniversario(TNotas *n, int mes)
 {
     int i, c=0;
+    struct tm *_data_; 
 
-    DefineCores(12);
-    gotoxy(20,1); 
-    printf("-%s-",nomeMes(mes));
-    LimpaCores();
+    time_t segundos; time(&segundos); _data_=localtime(&segundos);
+
+    gotoxy(0,0); printf("Aniversariantes de %s:",nomeMes(mes));
 
     for(i=0;i<(*n).qtd;i++)
     {
         if((*n).nota[i].mes==mes) 
         {
-            gotoxy(20,3+c);
-            printf("\nAniversariante: %s", (*n).nota[i].nota);
+            gotoxy(3,3+c);
+            printf("%s  --  dia %d", (*n).nota[i].nota, (*n).nota[i].dia);
             c++;
         }
     }
 
-    if(c==0) printf("\nNenhum aniversariante");
+    if(c==0) 
+    {
+        gotoxy(3,3);
+        printf("Nenhum aniversariante");
+    }
+
+    imprimeCalendario(mes, _data_->tm_year+1900,*n,0);
 
     DefineCores(14);
-    gotoxy(0,8+c); 
+    gotoxy(0,15+c); 
     system("pause");
     LimpaCores();
 
+}
+
+void removerAniversariante(TNotas *n)
+{
+    char remover[30];
+    char conf;
+    int i, c=0; 
+
+    printf("Dgite o nome do aniversariante que deseja retirar da lista: ");
+    leString(remover,30);
+
+    for(i=0;i<(*n).qtd;i++)
+    {
+        if(strstr((*n).nota[i].nota,remover))
+        {
+            printf("\nDeseja remover %s dos aniversariantes? [s/n]", (*n).nota[i].nota);
+            conf = getch();
+            if(conf=='s')
+            {
+                (*n).nota[i] = (*n).nota[(*n).qtd];
+                (*n).qtd--;
+            }
+            c++;
+        }
+    }
+
+    if(c==0)
+    {
+        printf("\n\nAniversariante nao encontrado\n\n");
+        DefineCores(14);
+        system("pause");
+        LimpaCores();
+    }
+}
+
+int confereAniversario(int dia, int mes, TNotas n)
+{
+    int i;
+
+    for(i=0; i<n.qtd; i++)
+    {
+        if(dia==n.nota[i].dia && mes==n.nota[i].mes) return 1;
+    }
+
+    return 0;
 }

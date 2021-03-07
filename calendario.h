@@ -26,7 +26,7 @@ int calculaData(int mes, int dia, int ano);
 void imprimeDiaSemana(int mes, int dia, int ano);
 int qtdDiasMes(int mes, int ano);
 char *nomeMes(int mes);
-void imprimeCalendario(int mes, int ano);
+void imprimeCalendario(int mes, int ano, TNotas n, int conf);
 void inicializarNotas(TNotas *notas); 
 void inserirNota(TNotas *n);
 void gravaNota(TNotas n);
@@ -35,5 +35,8 @@ void inserirArq(TNotas *n, TNota nota);
 void leNotas(TNotas *n);
 void leString(char str[], int max);
 void imprimeAniversario(TNotas *n, int mes);
+void removerAniversariante(TNotas *n);
+int confereAniversario(int dia, int mes, TNotas n);
+
 
 #endif

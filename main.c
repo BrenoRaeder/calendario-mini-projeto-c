@@ -19,7 +19,7 @@ int main()
 
     time_t segundos; time(&segundos); _data_=localtime(&segundos);
 
-    LimpaConsole(15,3);
+    LimpaConsole(15,9);
     inicializarNotas(&n);
     leNotas(&n);
 
@@ -32,7 +32,8 @@ int main()
         printf("2. Veja todos os dias de um mes\n");
         printf("3. Adcione uma nota\n");
         printf("4. Veja todos os aniversariantes de um mes\n");
-        printf("5. SAIR\n\n");
+        printf("5. Remova um aniversariante da lista\n");
+        printf("6. SAIR\n\n\n");
         printf("DIGITE SUA OPCAO: ");
         scanf("%d", &opcMenu);
         system("cls");
@@ -51,7 +52,7 @@ int main()
             printf("Digite o mes e o ano (MM AAAA):");              //olhar agosto de 1904; olhar domingos primeiros abaixo de 1900
             scanf("%d %d", &data.mes, &data.ano);
             system("cls");
-            imprimeCalendario(data.mes, data.ano);
+            imprimeCalendario(data.mes, data.ano, n,1);
             ch = getch();
 
             while(ch!='q')
@@ -65,7 +66,7 @@ int main()
                         data.ano++;
                     }
                     data.mes++;
-                    imprimeCalendario(data.mes, data.ano);
+                    imprimeCalendario(data.mes, data.ano, n,1);
                     ch = getch();
                 }
                 else if(ch=='a')
@@ -77,21 +78,17 @@ int main()
                         data.ano--;
                     }
                     data.mes--;
-                    imprimeCalendario(data.mes, data.ano);
+                    imprimeCalendario(data.mes, data.ano, n,1);
                     ch = getch();
-                }
-                else if(ch=='q')
-                {
-                    system("cls");
-                    break;
                 }
                 else
                 {
                     system("cls");
-                    imprimeCalendario(data.mes, data.ano);
+                    imprimeCalendario(data.mes, data.ano, n,1);
                     ch = getch();
                 }
             }
+            break;
             //add parte da nota no futuro
 
         case 3:
@@ -106,6 +103,10 @@ int main()
             break;
 
         case 5:
+            removerAniversariante(&n);
+            break;
+
+        case 6:
             gravaNota(n);
             LimpaConsole(15,0);
             exit(0);
