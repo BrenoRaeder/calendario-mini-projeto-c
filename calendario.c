@@ -62,7 +62,6 @@ int codigoMes(int mes)
 
 char *diaSemana(int dia)
 {
-    //char diaSemana[20];
     
     switch (dia)
     {
@@ -185,7 +184,7 @@ char *nomeMes(int mes)
 void imprimeCalendario(int mes, int ano, TNotas n, int conf)
 {
     int i, j=1, qtdDias, comecoMes;
-    int x=28,y=3; //coordenadas
+    int x=28,y=2; //coordenadas
 
     if(conf==0) x=40;
     
@@ -193,9 +192,9 @@ void imprimeCalendario(int mes, int ano, TNotas n, int conf)
     comecoMes = calculaData(1, mes, ano); //0 é segunda, 1 é terça... 7 é erro
     if(ano%4==0 || (ano%100==0 && ano%400!=0)) comecoMes++;
 
-    gotoxy(x,y); printf("-------------------------");
-    y++; gotoxy(x+8,y); printf("%s, %d", nomeMes(mes),ano);
-    y++; gotoxy(x,y); printf("-------------------------");
+    gotoxy(x,y); printf("--------------------------");
+    y++; gotoxy(x+7,y); printf("%s, %d", nomeMes(mes),ano);
+    y++; gotoxy(x,y); printf("--------------------------");
     y+=2; gotoxy(x,y); printf("D   S   T   Q   Q   S   S");
     y+=2; gotoxy(x,y);
 
@@ -233,7 +232,7 @@ void imprimeCalendario(int mes, int ano, TNotas n, int conf)
         DefineCores(14);
         y+=4; gotoxy(8,y); printf("Pressione 'p' para o proximo mes, pressione 'a' para o anterior");
         y++; gotoxy(27,y); printf("Caso deseje sair pressione 'q'");
-        y++; gotoxy(5,y); printf("Datas com o fundo vermelhos indicam uma NOTA, pressione 'n' para ve-la");
+        y++; gotoxy(4,y); printf("Datas com a cor vermelha indicam um ANIVERSARIO, pressione 'n' para ve-los");
         LimpaCores();
     }
     
@@ -246,13 +245,15 @@ void inicializarNotas(TNotas *notas)
 
 void inserirNota(TNotas *n)
 {
-    printf("Digite o dia e o mes da sua nota (DD MM): ");
+    printf("Digite o dia e o mes do aniversario (DD MM): ");
             scanf("%d %d", &(*n).nota[(*n).qtd].dia, &(*n).nota[(*n).qtd].mes);
-            printf("\nDigite a nota: ");
+            printf("\nDigite o nome do aniversariante: ");
             leString((*n).nota[(*n).qtd].nota, 30);
             (*n).qtd++;
-
+            printf("\n\n\n\n");
+            DefineCores(14);
             system("pause");
+            LimpaCores();
 }
 
 void gravaNota(TNotas notas)

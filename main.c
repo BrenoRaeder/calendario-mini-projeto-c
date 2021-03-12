@@ -30,7 +30,7 @@ int main()
         system("cls");
         printf("1. Descubra o dia da semana\n");
         printf("2. Veja todos os dias de um mes\n");
-        printf("3. Adcione uma nota\n");
+        printf("3. Adcione uma aniversario\n");
         printf("4. Veja todos os aniversariantes de um mes\n");
         printf("5. Remova um aniversariante da lista\n");
         printf("6. SAIR\n\n\n");
@@ -45,11 +45,11 @@ int main()
             printf("Digite a data (DD MM AAAA):");
             scanf("%d %d %d", &data.mes, &data.dia, &data.ano);
             system("cls");
-            imprimeDiaSemana(data.mes, data.dia, data.ano); //só tá funcinando para datas acima de 1900
+            imprimeDiaSemana(data.mes, data.dia, data.ano); 
             break;
         
         case 2:
-            printf("Digite o mes e o ano (MM AAAA):");              //olhar agosto de 1904; olhar domingos primeiros abaixo de 1900
+            printf("Digite o mes e o ano (MM AAAA):");             
             scanf("%d %d", &data.mes, &data.ano);
             system("cls");
             imprimeCalendario(data.mes, data.ano, n,1);
@@ -81,6 +81,12 @@ int main()
                     imprimeCalendario(data.mes, data.ano, n,1);
                     ch = getch();
                 }
+                else if(ch=='n')
+                {
+                    system("cls");
+                    imprimeAniversario(&n,data.mes);
+                    break;
+                }
                 else
                 {
                     system("cls");
@@ -89,7 +95,6 @@ int main()
                 }
             }
             break;
-            //add parte da nota no futuro
 
         case 3:
             inserirNota(&n);
